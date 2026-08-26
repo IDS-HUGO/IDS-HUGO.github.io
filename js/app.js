@@ -1,4 +1,6 @@
-const componentPaths = {
+// app.js — carga los componentes, maneja nav móvil, scrollspy y animaciones de entrada.
+
+const COMPONENTS = {
   navigation: 'components/navigation.html',
   hero: 'components/hero.html',
   stats: 'components/stats.html',
@@ -8,61 +10,101 @@ const componentPaths = {
   footer: 'components/footer.html',
 };
 
-async function loadComponents() {
-  const componentContainers = [...document.querySelectorAll('[data-component]')];
-  await Promise.all(componentContainers.map(async (container) => {
-    const response = await fetch(componentPaths[container.dataset.component]);
-    if (!response.ok) {
-      throw new Error(`No se pudo cargar ${container.dataset.component}`);
-    }
-    container.innerHTML = await response.text();
-  }));
+async function loadComponent(name, path) {
+  const slot = document.querySelector(`[data-component="${name}"]`);
+  if (!slot) return;
+  try {
+    const res = await fetch(path, { cache: 'no-cache' });
+    if (!res.ok) throw new Error(res.status);
+    slot.outerHTML = await res.text();
+  } catch (err) {
+    console.error(`No se pudo cargar ${name}:`, err);
+    const banner = document.querySelector('[data-load-error]');
+    if (banner) banner.hidden = false;
+  }
 }
 
-function getNavigationState() {
-  return {
-    navigationLinks: [...document.querySelectorAll('[data-nav-link]')],
-    sections: [...document.querySelectorAll('[data-section]')],
-    revealElements: [...document.querySelectorAll('[data-reveal]')],
-  };
+async function loadAll() {
+  await Promise.all(
+    Object.entries(COMPONENTS).map(([name, path]) => loadComponent(name, path))
+  );
+  initNavToggle();
+  initScrollSpy();
+  initReveal();
 }
 
-function setCurrentSection(sectionId, navigationLinks) {
-  navigationLinks.forEach((link) => {
-    const isCurrent = link.getAttribute('href') === `#${sectionId}`;
-    link.setAttribute('aria-current', isCurrent ? 'true' : 'false');
+// Menú móvil: agrega un botón hamburguesa a la nav si no existe.
+function initNavToggle() {
+  const nav = document.querySelector('.site-nav');
+  const list = nav?.querySelector('ul');
+  if (!nav || !list) return;
+
+  let toggle = nav.querySelector('.nav-toggle');
+  if (!toggle) {
+    toggle = document.createElement('button');
+    toggle.className = 'nav-toggle';
+    toggle.setAttribute('aria-label', 'Abrir menú');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.innerHTML = '<span></span>';
+    nav.appendChild(toggle);
+  }
+
+  toggle.addEventListener('click', () => {
+    const isOpen = list.getAttribute('data-open') === 'true';
+    list.setAttribute('data-open', String(!isOpen));
+    toggle.setAttribute('aria-expanded', String(!isOpen));
+    toggle.setAttribute('aria-label', isOpen ? 'Abrir menú' : 'Cerrar menú');
+  });
+
+  // cierra el menú al elegir un link (mobile)
+  list.querySelectorAll('a[data-nav-link]').forEach((link) => {
+    link.addEventListener('click', () => {
+      list.setAttribute('data-open', 'false');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
   });
 }
 
-function observeSections({ navigationLinks, sections }) {
-  if (!('IntersectionObserver' in window)) {
-    return;
-  }
+// Resalta el link de la sección visible actualmente.
+function initScrollSpy() {
+  const links = document.querySelectorAll('a[data-nav-link]');
+  const sections = Array.from(links)
+    .map((l) => document.querySelector(l.getAttribute('href')))
+    .filter(Boolean);
 
-  const sectionObserver = new IntersectionObserver(
+  if (!sections.length) return;
+
+  const observer = new IntersectionObserver(
     (entries) => {
-      const visibleSection = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((first, second) => second.intersectionRatio - first.intersectionRatio)[0];
-
-      if (visibleSection) {
-        setCurrentSection(visibleSection.target.id, navigationLinks);
-      }
+      entries.forEach((entry) => {
+        const id = `#${entry.target.id}`;
+        const link = document.querySelector(`a[data-nav-link][href="${id}"]`);
+        if (!link) return;
+        if (entry.isIntersecting) {
+          links.forEach((l) => l.setAttribute('aria-current', 'false'));
+          link.setAttribute('aria-current', 'true');
+        }
+      });
     },
-    { rootMargin: '-20% 0px -65% 0px', threshold: [0, 0.25, 0.5] },
+    { rootMargin: '-40% 0px -50% 0px', threshold: 0 }
   );
 
-  sections.forEach((section) => sectionObserver.observe(section));
+  sections.forEach((s) => observer.observe(s));
 }
 
-function observeRevealElements({ revealElements }) {
-  if (!('IntersectionObserver' in window)) {
-    revealElements.forEach((element) => element.classList.add('is-visible'));
+// Anima la entrada de cada bloque marcado con data-reveal.
+function initReveal() {
+  const items = document.querySelectorAll('[data-reveal]');
+  if (!items.length) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) {
+    items.forEach((el) => el.classList.add('is-visible'));
     return;
   }
 
-  const revealObserver = new IntersectionObserver(
-    (entries, observer) => {
+  const observer = new IntersectionObserver(
+    (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
@@ -70,22 +112,10 @@ function observeRevealElements({ revealElements }) {
         }
       });
     },
-    { threshold: 0.12 },
+    { threshold: 0.12 }
   );
 
-  revealElements.forEach((element) => revealObserver.observe(element));
+  items.forEach((el) => observer.observe(el));
 }
 
-async function bootstrap() {
-  try {
-    await loadComponents();
-    const state = getNavigationState();
-    observeSections(state);
-    observeRevealElements(state);
-  } catch (error) {
-    document.querySelector('[data-load-error]').hidden = false;
-    console.error(error);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', bootstrap);
+document.addEventListener('DOMContentLoaded', loadAll);
