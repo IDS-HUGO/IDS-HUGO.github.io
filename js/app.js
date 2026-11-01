@@ -7,6 +7,7 @@ const COMPONENTS = {
   projects: 'components/projects.html',
   experience: 'components/experience.html',
   stack: 'components/stack.html',
+  contact: 'components/contact.html',
   footer: 'components/footer.html',
 };
 
@@ -31,6 +32,7 @@ async function loadAll() {
   initNavToggle();
   initScrollSpy();
   initReveal();
+  initContactForm();
 }
 
 // Menú móvil: agrega un botón hamburguesa a la nav si no existe.
@@ -116,6 +118,26 @@ function initReveal() {
   );
 
   items.forEach((el) => observer.observe(el));
+}
+
+function initContactForm() {
+  const form = document.querySelector('#contact-form');
+  const status = document.querySelector('#form-status');
+  if (!form || !status) return;
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const subject = `${data.get('interest')} — contacto desde mi portafolio`;
+    const body = [
+      `Nombre: ${data.get('name')}`,
+      `Correo: ${data.get('email')}`,
+      '',
+      data.get('message'),
+    ].join('\n');
+    window.location.href = `mailto:hugofranciscoluisinclan@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    status.textContent = 'Tu mensaje está listo para enviarse.';
+  });
 }
 
 document.addEventListener('DOMContentLoaded', loadAll);
