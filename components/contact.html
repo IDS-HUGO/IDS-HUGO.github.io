@@ -11,11 +11,15 @@
         <div><span class="detail-label">Ubicación</span>Pachuca, Hidalgo · movilidad nacional</div>
       </div>
     </div>
-    <form class="contact-form" id="contact-form">
+    <form class="contact-form" id="contact-form" action="https://formsubmit.co/hugofranciscoluisinclan@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="Nuevo contacto desde el portafolio">
+      <input type="hidden" name="_next" value="https://ids-hugo.github.io/#contacto">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
       <label for="contact-name">Nombre</label>
       <input id="contact-name" name="name" type="text" autocomplete="name" required>
       <label for="contact-email">Correo electrónico</label>
-      <input id="contact-email" name="email" type="email" autocomplete="email" required>
+      <input id="contact-email" name="_replyto" type="email" autocomplete="email" required>
       <label for="contact-interest">¿En qué puedo ayudarte?</label>
       <select id="contact-interest" name="interest">
         <option value="Oportunidad laboral">Oportunidad laboral</option>
