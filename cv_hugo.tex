@@ -1,0 +1,121 @@
+\documentclass[9pt,letterpaper]{article}
+
+% CV de una columna, legible para ATS y fácil de exportar a PDF.
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage[letterpaper,margin=1.1cm,top=0.85cm,bottom=0.85cm]{geometry}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{iftex}
+\ifPDFTeX
+  \input{glyphtounicode}
+  \pdfgentounicode=1
+\fi
+
+\definecolor{accent}{HTML}{B5542E}
+\definecolor{ink}{HTML}{202426}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlist[itemize]{leftmargin=1.1em,itemsep=0pt,topsep=1pt,parsep=0pt}
+\titleformat{\section}{\large\bfseries\color{ink}}{}{0pt}{}[\vspace{-4pt}\color{accent}\rule{\linewidth}{0.45pt}]
+\titlespacing*{\section}{0pt}{4pt}{2pt}
+\hypersetup{colorlinks=true,urlcolor=accent,linkcolor=ink}
+
+\begin{document}
+\small
+
+{\Huge\bfseries Hugo Francisco Luis Inclán}\par
+\vspace{2pt}
+{\large\bfseries Desarrollador Full Stack | Backend | Mobile | APIs}\par
+\vspace{4pt}
+Ubicación y disponibilidad: Pachuca, Hidalgo (México) · disponible para reubicación\\
+Teléfono: +52 972 722 8805\\
+Correo: \href{mailto:hugofranciscoluisinclan@gmail.com}{hugofranciscoluisinclan@gmail.com}\\
+Portafolio: \href{https://ids-hugo.github.io}{https://ids-hugo.github.io}\\
+GitHub: \href{https://github.com/IDS-HUGO}{https://github.com/IDS-HUGO}\\
+LinkedIn: \href{https://linkedin.com/in/hugo-francisco-luis-inclan-3aaa752a1}{https://linkedin.com/in/hugo-francisco-luis-inclan-3aaa752a1}
+
+\section*{Perfil profesional}
+Desarrollador Full Stack e Ingeniero en Software en proceso de titulación, con experiencia en backend, APIs REST, aplicaciones web y mobile multiplataforma. Busco oportunidades para trabajar principalmente con Go, FastAPI, Flutter y React en equipos de software de producto.
+
+\section*{Experiencia profesional}
+\textbf{NEUROTRY}\\
+Puesto: \textit{Estadía Profesional | Desarrollo de software}\\
+Periodo: \textit{Agosto 2026 - Presente}
+\begin{itemize}[label=\textbullet]
+  \item Participo en el desarrollo de módulos full stack, cubriendo análisis, implementación, pruebas funcionales, revisión de código y entrega en ciclos ágiles.
+  \item Aplico arquitectura limpia y prácticas Scrum/Kanban para organizar tareas, revisar entregables y colaborar con el equipo de producción bajo confidencialidad.
+\end{itemize}
+
+\textbf{Programa Chiapas Puede - Unidad de Detección de Riesgos}\\
+Puesto: \textit{Analista y Desarrollador de Software}\\
+Periodo: \textit{Enero 2026 - Julio 2026}
+\begin{itemize}[label=\textbullet]
+  \item Desarrollé un sistema web de monitoreo SIGA con React y Supabase, reduciendo 40\% el tiempo de respuesta para 25 municipios de Chiapas.
+\end{itemize}
+
+\textbf{Instituto Nacional de Astrofísica, Óptica y Electrónica (INAOE)}\\
+Puesto: \textit{Desarrollador Backend | Proyecto INAOE-NOTIFICATION}\\
+Periodo: \textit{Agosto 2025 - Agosto 2025}
+\begin{itemize}[label=\textbullet]
+  \item Diseñé una API institucional con arquitectura hexagonal, 12 endpoints REST, eventos asíncronos y persistencia relacional; 90\% de disponibilidad y 85\% menos tiempo de comunicación.
+\end{itemize}
+
+\textbf{Proyecto de continuidad de becas | INAOE}\\
+Puesto: \textit{Desarrollador de Software}\\
+Periodo: \textit{Abril 2025 - Mayo 2025}
+\begin{itemize}[label=\textbullet]
+  \item Construí el sistema de continuidad de becas para 40+ estudiantes, digitalizando un proceso manual con Go, API REST, MySQL y frontend; participé en requisitos y despliegue.
+\end{itemize}
+
+\section*{Proyectos destacados}
+\textbf{SUMS\_MOBILE - Sistema de Unidad Médica de Suchiapa}\\
+Tecnologías: \textit{Flutter, Dart, Clean Architecture}
+\begin{itemize}[label=\textbullet]
+  \item Proyecto de desarrollo aplicado para salud rural dentro de IMSS-Bienestar. Lidero una aplicación con 4 roles, 5 formularios clínicos, integración REST, MVVM, Machine Learning y 40 ADR.
+\end{itemize}
+\textbf{DulceMoment}\\
+Tecnologías: \textit{Flutter, Kotlin, Supabase, Cloudinary}
+\begin{itemize}[label=\textbullet]
+  \item Proyecto personal de producto: migré una app de pedidos de Android/Kotlin/Jetpack Compose a Flutter con Supabase y corregí una exposición de credenciales de Cloudinary.
+\end{itemize}
+\textbf{PetroFlow}\\
+Tecnologías: \textit{Flutter, FastAPI, PostgreSQL, JWT}
+\begin{itemize}[label=\textbullet]
+  \item Desarrollé una app de gestión de pozos petroleros con Flutter, FastAPI, PostgreSQL, Clean Architecture, JWT y 3 roles.
+\end{itemize}
+\textbf{IoT y plataformas educativas}\\
+Tecnologías: \textit{Go, WebSocket, MQTT, RabbitMQ, FastAPI, React}
+\begin{itemize}[label=\textbullet]
+  \item Construí APISENSOR para ingesta de sensores con RabbitMQ y MySQL; desarrollé WEBSOCKET\_EASYGROW para comunicación en tiempo real con WebSocket y MQTT; y API-FRONT-EASYGROW como plataforma educativa con FastAPI, React y JWT.
+\end{itemize}
+
+\section*{Competencias técnicas}
+\textbf{Lenguajes:} Go, Python, Dart, JavaScript, TypeScript, Java, Kotlin, SQL.\\
+\textbf{Backend y APIs:} FastAPI, Flask, Node.js, Express, REST, WebSocket, MQTT, RabbitMQ, JWT, microservicios, arquitectura hexagonal.\\
+\textbf{Frontend y mobile:} Flutter, React, Vite, HTML5, CSS3, Tailwind CSS, Android, Clean Architecture, MVVM, Provider.\\
+\textbf{Datos y DevOps:} MySQL, PostgreSQL, MongoDB, Supabase, Docker, AWS EC2/S3, Git/GitHub, CI/CD, Cloudinary.\\
+\textbf{IA y herramientas académicas:} Qiskit (uso académico en Qiskit Fall Fest 2025), CNN, TensorFlow/Keras, OpenCV, NumPy.\\
+\textbf{IA y productividad:} OpenCode, Claude Code, desarrollo asistido por IA.\\
+\textbf{Metodologías:} Scrum y Kanban; planificación de tareas, revisión de entregables y ciclos ágiles aplicados en NEUROTRY.
+
+\section*{Formación académica}
+\textbf{Ingeniería en Software} - Universidad Politécnica de Chiapas (2023 - 2026) · titulación en trámite (dic 2026).\\
+\textbf{Técnico en Programación} - CBTIS No. 31 (2020 - 2023).
+
+\section*{Certificaciones}
+\textbf{AWS Academy:} Cloud Developing; Cloud Foundations; Cloud Operations.\\
+\textbf{Cisco:} Introducción a la Ciberseguridad; Administración de Amenazas Cibernéticas; Curso de Redes; Curso de Sistemas Operativos.
+
+\section*{Reconocimientos y hackatones}
+\textbf{IBM Quantum / Qiskit Fall Fest 2025:} Certificado de participación, noviembre de 2025.\\
+\textbf{Tech Sin Fronteras 2.0:} Certificado de participación en hackathon de Vara Network, CryptoMx y Universidad Politécnica de Chiapas; octubre de 2024; blockchain.\\
+\textbf{Hackatón Chiapas 2024:} Participante.\\
+\textbf{Idiomas:} Español nativo | Inglés intermedio.
+
+\end{document}
